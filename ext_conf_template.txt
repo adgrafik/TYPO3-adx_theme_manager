@@ -1,0 +1,3 @@
+
+  # cat=basic/enable/100; type=input; label= Theme directory: Relative directory from installation where the themes are, with trailing slash.
+themesDirectory = fileadmin/themes/
