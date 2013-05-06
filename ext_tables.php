@@ -18,7 +18,7 @@ if (!$themesPath) {
 
 	// Create default theme if no theme exists.
 	if (!count($themes)) {
-		$cmd = 'cp -R ' . escapeshellarg($extensionPath . 'Resources/Private/DefaultTheme') . ' ' . escapeshellarg($themesPath . 'Common');
+		$cmd = 'cp -R ' . escapeshellarg(t3lib_extMgm::extPath('adx_theme_manager') . 'Resources/Private/DefaultTheme') . ' ' . escapeshellarg($themesPath . 'Common');
 		t3lib_utility_Command::exec($cmd);
 		$themes[] = 'Common';
 	}
