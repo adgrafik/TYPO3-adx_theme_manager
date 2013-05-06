@@ -40,7 +40,7 @@ class Tx_AdxThemeManager_Service_Utility {
 
 				foreach ($themePathAndFilenames as $key => $themePathAndFilename) {
 					if (strpos($themePathAndFilename, '/TypoScript/') !== FALSE) {
-						if (stripos($themePathAndFilename, '/sonstants') !== FALSE) {
+						if (stripos($themePathAndFilename, '/constants') !== FALSE) {
 							$templateRecord['constants'] .= LF . '/**' . LF . ' * ' . $themePathAndFilename . LF . ' */' . LF;
 							$templateRecord['constants'] .= t3lib_div::getUrl($themePathAndFilename);
 						} else if (stripos($themePathAndFilename, '/setup') !== FALSE) {
