@@ -1,3 +1,6 @@
 
-  # cat=basic/enable/100; type=input; label= Theme directory: Relative directory from installation where the themes are, with trailing slash.
+  # cat=basic/enable/10; type=input; label= Theme directory: Relative directory from installation where the themes are, with trailing slash.
 themesDirectory = fileadmin/themes/
+
+  # cat=basic/enable/20; type=input; label= Dynamic TypoScript Path: The theme manager dynamicly prints the theme path to the template. Define here the TypoScript path.
+dynamicTypoScriptPath = plugin.tx_adxthememanager.

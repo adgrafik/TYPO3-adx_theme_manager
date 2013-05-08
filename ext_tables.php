@@ -2,9 +2,12 @@
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
 $extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['adx_theme_manager']);
+$themesDirectory = $extensionConfiguration['themesDirectory']
+	? rtrim($extensionConfiguration['themesDirectory'], '/') . '/'
+	: 'fileadmin/themes/';
 
 // Include ext_tables.php of themes.
-$themesPath = t3lib_div::getFileAbsFileName($extensionConfiguration['themesDirectory']);
+$themesPath = t3lib_div::getFileAbsFileName($themesDirectory);
 if (!$themesPath) {
 	trigger_error('Theme path was not set in the configuration of the extension "adx_theme_manager".', E_USER_WARNING);
 } else {
@@ -43,7 +46,7 @@ $tempColumns = array(
 			'size' => 3,
 			'maxitems' => 100,
 			'items' => array(),
-			'itemsProcFunc' => 'Tx_AdxThemeManager_Service_ItemProcessFunction->getAvailableThemes',
+			'itemsProcFunc' => 'Tx_AdxThemeManager_ItemProcessFunction_SysTemplate->getStaticFiles',
 		),
 	),
 );

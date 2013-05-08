@@ -2,7 +2,9 @@
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
 $extensionConfiguration = unserialize($TYPO3_CONF_VARS['EXT']['extConf']['adx_theme_manager']);
-$themesDirectory = $extensionConfiguration['themesDirectory'];
+$themesDirectory = $extensionConfiguration['themesDirectory']
+	? rtrim($extensionConfiguration['themesDirectory'], '/') . '/'
+	: 'fileadmin/themes/';
 
 // Include TypoScript configuration.
 $pathAndFilename = substr(dirname(__FILE__), strpos(dirname(__FILE__), $themesDirectory)) . '/Configuration/TSconfig/User.ts';

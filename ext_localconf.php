@@ -1,10 +1,13 @@
 <?php
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
-$extensionConfiguration = unserialize($TYPO3_CONF_VARS['EXT']['extConf']['adx_theme_manager']);
+$extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['adx_theme_manager']);
+$themesDirectory = $extensionConfiguration['themesDirectory']
+	? rtrim($extensionConfiguration['themesDirectory'], '/') . '/'
+	: 'fileadmin/themes/';
 
 // Include ext_localconf.php of themes.
-$themesPath = t3lib_div::getFileAbsFileName($extensionConfiguration['themesDirectory']);
+$themesPath = t3lib_div::getFileAbsFileName($themesDirectory);
 if ($themesPath) {
 
 	$themes = t3lib_div::get_dirs($themesPath);
@@ -15,9 +18,10 @@ if ($themesPath) {
 	}
 
 	// Append theme path to allowed paths.
-	$TYPO3_CONF_VARS['FE']['addAllowedPaths'] .= ($TYPO3_CONF_VARS['FE']['addAllowedPaths'] ? ',' : '') . $extensionConfiguration['theme'];
+	$GLOBALS['TYPO3_CONF_VARS']['FE']['addAllowedPaths'] .= ($GLOBALS['TYPO3_CONF_VARS']['FE']['addAllowedPaths'] ? ',' : '') . $extensionConfiguration['theme'];
 }
 
-$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tstemplate.php']['includeStaticTypoScriptSourcesAtEnd'][] = 'EXT:adx_theme_manager/Classes/Service/Utility.php:&Tx_AdxThemeManager_Service_Utility->includeTypoScriptForFrameworkCommonAndSkins';
+// Initialize hook
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tstemplate.php']['includeStaticTypoScriptSourcesAtEnd'][] = 'EXT:adx_theme_manager/Classes/Hooks/TsTemplate.php:&Tx_AdxThemeManager_Hooks_TsTemplate->includeStaticTypoScriptSources';
 
 ?>
