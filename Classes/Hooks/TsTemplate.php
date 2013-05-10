@@ -40,8 +40,8 @@ class Tx_AdxThemeManager_Hooks_TsTemplate {
 				$templateRecord['constants'] .= ' * included by adx_theme_manager' . LF;
 				$templateRecord['constants'] .= ' * Theme path: ' . $themeDirectory . LF;
 				$templateRecord['constants'] .= ' */' . LF;
-				$templateRecord['constants'] .= $dynamicTypoScriptPath . lcfirst($themeName) . '.path' . ' = ' . $themeDirectory . LF;
-				$templateRecord['constants'] .= $dynamicTypoScriptPath . 'current.path = ' . $themeDirectory . LF;
+				$templateRecord['constants'] .= $dynamicTypoScriptPath . 'path.' . lcfirst($themeName) . ' = ' . $themeDirectory . LF;
+				$templateRecord['constants'] .= $dynamicTypoScriptPath . 'path.current = ' . $themeDirectory . LF;
 
 				$themePathAndFilenames = t3lib_div::getAllFilesAndFoldersInPath(array(), $themePath, 'ts,txt');
 				sort($themePathAndFilenames);
