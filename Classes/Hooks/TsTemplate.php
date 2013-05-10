@@ -34,13 +34,16 @@ class Tx_AdxThemeManager_Hooks_TsTemplate {
 					'title' => 'Theme: ' . $themeName,
 					'uid' => 'EXT:adx_theme_manager:' . $themeName,
 				);
+				$themeTypoScriptName = class_exists('\TYPO3\CMS\Core\Utility\GeneralUtility')
+					? \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($themeName)
+					: t3lib_div::underscoredToLowerCamelCase($themeName);
 
 				// Append theme path.
 				$templateRecord['constants'] .= LF . '/**' . LF;
 				$templateRecord['constants'] .= ' * included by adx_theme_manager' . LF;
 				$templateRecord['constants'] .= ' * Theme path: ' . $themeDirectory . LF;
 				$templateRecord['constants'] .= ' */' . LF;
-				$templateRecord['constants'] .= $dynamicTypoScriptPath . 'path.' . lcfirst($themeName) . ' = ' . $themeDirectory . LF;
+				$templateRecord['constants'] .= $dynamicTypoScriptPath . 'path.' . $themeTypoScriptName . ' = ' . $themeDirectory . LF;
 				$templateRecord['constants'] .= $dynamicTypoScriptPath . 'path.current = ' . $themeDirectory . LF;
 
 				$themePathAndFilenames = t3lib_div::getAllFilesAndFoldersInPath(array(), $themePath, 'ts,txt');
