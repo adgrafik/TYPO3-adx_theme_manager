@@ -14,9 +14,6 @@ class Tx_AdxThemeManager_Hooks_TsTemplate {
 		if ($params['row']['tx_adxthememanager_static_files']) {
 
 			$extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['adx_theme_manager']);
-			$dynamicTypoScriptPath = $extensionConfiguration['dynamicTypoScriptPath']
-				? rtrim($extensionConfiguration['dynamicTypoScriptPath'], '.') . '.'
-				: 'plugin.tx_adxthememanager.';
 
 			$themeDirectories = t3lib_div::trimExplode(',', $params['row']['tx_adxthememanager_static_files'], TRUE);
 			foreach ($themeDirectories as $themeDirectory) {
@@ -43,8 +40,8 @@ class Tx_AdxThemeManager_Hooks_TsTemplate {
 				$templateRecord['constants'] .= ' * included by adx_theme_manager' . LF;
 				$templateRecord['constants'] .= ' * Theme path: ' . $themeDirectory . LF;
 				$templateRecord['constants'] .= ' */' . LF;
-				$templateRecord['constants'] .= $dynamicTypoScriptPath . 'path.' . $themeTypoScriptName . ' = ' . $themeDirectory . LF;
-				$templateRecord['constants'] .= $dynamicTypoScriptPath . 'path.current = ' . $themeDirectory . LF;
+				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.' . $themeTypoScriptName . ' = ' . $themeDirectory . LF;
+				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.current = ' . $themeDirectory . LF;
 
 				$themePathAndFilenames = t3lib_div::getAllFilesAndFoldersInPath(array(), $themePath, 'ts,txt');
 				sort($themePathAndFilenames);

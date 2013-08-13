@@ -22,6 +22,10 @@ if ($themesPath) {
 }
 
 // Initialize hook
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tstemplate.php']['includeStaticTypoScriptSourcesAtEnd'][] = 'EXT:adx_theme_manager/Classes/Hooks/TsTemplate.php:&Tx_AdxThemeManager_Hooks_TsTemplate->includeStaticTypoScriptSources';
+if (class_exists('\\TYPO3\\CMS\\Core\\TypoScript\\ExtendedTemplateService')) {
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tstemplate.php']['includeStaticTypoScriptSourcesAtEnd'][] = 'EXT:adx_theme_manager/Classes/Hooks/TemplateService.php:&Tx_AdxThemeManager_Hooks_TemplateService->includeStaticTypoScriptSources';
+} else {
+	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tstemplate.php']['includeStaticTypoScriptSourcesAtEnd'][] = 'EXT:adx_theme_manager/Classes/Hooks/TsTemplate.php:&Tx_AdxThemeManager_Hooks_TsTemplate->includeStaticTypoScriptSources';
+}
 
 ?>
