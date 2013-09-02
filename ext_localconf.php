@@ -6,6 +6,9 @@ $themesDirectory = $extensionConfiguration['themesDirectory']
 	? rtrim($extensionConfiguration['themesDirectory'], '/') . '/'
 	: 'fileadmin/themes/';
 
+// Append theme path to allowed paths.
+$GLOBALS['TYPO3_CONF_VARS']['FE']['addAllowedPaths'] .= ($GLOBALS['TYPO3_CONF_VARS']['FE']['addAllowedPaths'] ? ',' : '') . $themesDirectory;
+
 // Include ext_localconf.php of themes.
 $themesPath = t3lib_div::getFileAbsFileName($themesDirectory);
 if ($themesPath) {
@@ -16,9 +19,6 @@ if ($themesPath) {
 	foreach ($themes as $theme) {
 		require_once($themesPath . $theme . '/ext_localconf.php');
 	}
-
-	// Append theme path to allowed paths.
-	$GLOBALS['TYPO3_CONF_VARS']['FE']['addAllowedPaths'] .= ($GLOBALS['TYPO3_CONF_VARS']['FE']['addAllowedPaths'] ? ',' : '') . $extensionConfiguration['theme'];
 }
 
 // Initialize hook
