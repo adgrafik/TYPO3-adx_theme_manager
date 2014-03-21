@@ -17,7 +17,7 @@ if ($themesPath) {
 		require_once($themesPath . $themeName . '/ext_localconf.php');
 		// Include ext_tables.sql.
 		if (is_file($themesPath . $themeName . '/ext_tables.sql')) {
-			$GLOBALS['TYPO3_LOADED_EXT'][$_EXTKEY . $themeName]['ext_tables.sql'] = $pathAndFilename;
+			$GLOBALS['TYPO3_LOADED_EXT'][$_EXTKEY . $themeName]['ext_tables.sql'] = $themesPath . $themeName . '/ext_tables.sql';
 		}
 	}
 
