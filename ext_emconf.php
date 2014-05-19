@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "adx_theme_manager".
  *
- * Auto generated 21-03-2014 15:42
+ * Auto generated 19-05-2014 15:05
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array (
 	'description' => 'Adds an option to the template record to load static TypoScript templates per file and more.',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '1.0.1',
+	'version' => '1.0.2',
 	'dependencies' => 'cms,version',
 	'conflicts' => '',
 	'priority' => 'bottom',
