@@ -1,15 +1,15 @@
 <?php
 
-class Tx_AdxThemeManager_Hooks_TsTemplate {
+class Tx_AdxThemeManager_Hooks_TemplateService extends \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService {
 
 	/**
 	 * Includes static template records (from static_template table) and static template files (from extensions) for the input template record row.
 	 *
-	 * @param array $params							Array of parameters from the parent class. Includes idList, templateId, pid, and row.
-	 * @param t3lib_TStemplate $parentObject		Reference back to parent object, t3lib_tstemplate or one of its subclasses.
+	 * @param array $params Array of parameters from the parent class. Includes idList, templateId, pid, and row.
+	 * @param \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService $parentObject Reference back to parent object, or one of its subclasses.
 	 * @return void
 	 */
-	public function includeStaticTypoScriptSources(array $params, t3lib_TStemplate $parentObject) {
+	public function includeStaticTypoScriptSources(array $params, \TYPO3\CMS\Core\TypoScript\TemplateService $parentObject) {
 
 		if ($params['row']['tx_adxthememanager_static_files']) {
 
@@ -34,6 +34,7 @@ class Tx_AdxThemeManager_Hooks_TsTemplate {
 				$themeTypoScriptName = class_exists('\\TYPO3\\CMS\\Core\\Utility\\GeneralUtility')
 					? \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($themeName)
 					: t3lib_div::underscoredToLowerCamelCase($themeName);
+				$themeTypoScriptName = str_replace(array('.', '-'), '_', $themeTypoScriptName);
 
 				// Append theme path.
 				$templateRecord['constants'] .= LF . '/**' . LF;
