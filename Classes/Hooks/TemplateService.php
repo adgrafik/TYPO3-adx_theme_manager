@@ -1,6 +1,7 @@
 <?php
+namespace AdGrafik\AdxThemeManager\Hooks;
 
-class Tx_AdxThemeManager_Hooks_TemplateService extends \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService {
+class TemplateService extends \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService {
 
 	/**
 	 * Includes static template records (from static_template table) and static template files (from extensions) for the input template record row.
@@ -15,10 +16,10 @@ class Tx_AdxThemeManager_Hooks_TemplateService extends \TYPO3\CMS\Core\TypoScrip
 
 			$extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['adx_theme_manager']);
 
-			$themeDirectories = t3lib_div::trimExplode(',', $params['row']['tx_adxthememanager_static_files'], TRUE);
+			$themeDirectories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $params['row']['tx_adxthememanager_static_files'], TRUE);
 			foreach ($themeDirectories as $themeDirectory) {
 
-				$themePath = t3lib_div::getFileAbsFileName($themeDirectory);
+				$themePath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($themeDirectory);
 				$themeName = basename($themeDirectory);
 
 				$templateId = 'ext_adxthememanager_' . strtolower($themeName);
@@ -31,9 +32,7 @@ class Tx_AdxThemeManager_Hooks_TemplateService extends \TYPO3\CMS\Core\TypoScrip
 					'title' => 'Theme: ' . $themeName,
 					'uid' => 'EXT:adx_theme_manager:' . $themeName,
 				);
-				$themeTypoScriptName = class_exists('\\TYPO3\\CMS\\Core\\Utility\\GeneralUtility')
-					? \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($themeName)
-					: t3lib_div::underscoredToLowerCamelCase($themeName);
+				$themeTypoScriptName = \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($themeName);
 				$themeTypoScriptName = str_replace(array('.', '-'), '_', $themeTypoScriptName);
 
 				// Append theme path.
@@ -44,14 +43,14 @@ class Tx_AdxThemeManager_Hooks_TemplateService extends \TYPO3\CMS\Core\TypoScrip
 				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.' . $themeTypoScriptName . ' = ' . $themeDirectory . LF;
 				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.current = ' . $themeDirectory . LF;
 
-				$themePathAndFilenames = t3lib_div::getAllFilesAndFoldersInPath(array(), $themePath, 'ts,txt');
+				$themePathAndFilenames = \TYPO3\CMS\Core\Utility\GeneralUtility::getAllFilesAndFoldersInPath(array(), $themePath, 'ts,txt');
 				sort($themePathAndFilenames);
 
 				foreach ($themePathAndFilenames as $key => $themePathAndFilename) {
 
 					if (preg_match('{((/static/constants\.(txt|ts)|/static/setup\.(txt|ts))|(/typoscript.*\.(txt|ts)))$}i', $themePathAndFilename)) {
 
-						$source = t3lib_div::getUrl($themePathAndFilename);
+						$source = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($themePathAndFilename);
 						if (trim($source)) {
 
 							$head = LF . LF . '/**' . LF;

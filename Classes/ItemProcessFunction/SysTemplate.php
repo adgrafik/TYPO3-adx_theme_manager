@@ -1,6 +1,7 @@
 <?php
+namespace AdGrafik\AdxThemeManager\ItemProcessFunction;
 
-class Tx_AdxThemeManager_ItemProcessFunction_SysTemplate {
+class SysTemplate {
 
 	/**
 	 * Fill TCA form selection "Skin Path" with all skins.
@@ -16,9 +17,9 @@ class Tx_AdxThemeManager_ItemProcessFunction_SysTemplate {
 			? rtrim($extensionConfiguration['themesDirectory'], '/') . '/'
 			: 'fileadmin/themes/';
 
-		$themes = (array) t3lib_div::get_dirs(t3lib_div::getFileAbsFileName($themesDirectory));
+		$themes = (array) \TYPO3\CMS\Core\Utility\GeneralUtility::get_dirs(\TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($themesDirectory));
 		foreach ($themes as $theme) {
-			$localconfPathAndFileName = t3lib_div::getFileAbsFileName($themesDirectory . $theme . '/ext_localconf.php');
+			$localconfPathAndFileName = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($themesDirectory . $theme . '/ext_localconf.php');
 			if (is_file($localconfPathAndFileName)) {
 				$params['items'][] = array($theme, $themesDirectory . $theme . '/');
 			}

@@ -10,11 +10,11 @@ $themesDirectory = $extensionConfiguration['themesDirectory']
 $GLOBALS['TYPO3_CONF_VARS']['FE']['addAllowedPaths'] .= ($GLOBALS['TYPO3_CONF_VARS']['FE']['addAllowedPaths'] ? ',' : '') . $themesDirectory;
 
 // Include ext_localconf.php of themes.
-$themesPath = t3lib_div::getFileAbsFileName($themesDirectory);
+$themesPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($themesDirectory);
 if ($themesPath) {
 
-	$themes = t3lib_div::get_dirs($themesPath);
-	$extensionPath = t3lib_extMgm::extPath($_EXTKEY);
+	$themes = \TYPO3\CMS\Core\Utility\GeneralUtility::get_dirs($themesPath);
+	$extensionPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY);
 
 	foreach ($themes as $themeName) {
 		require_once($themesPath . $themeName . '/ext_localconf.php');
@@ -26,10 +26,6 @@ if ($themesPath) {
 }
 
 // Initialize hook
-if (class_exists('\\TYPO3\\CMS\\Core\\TypoScript\\ExtendedTemplateService')) {
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tstemplate.php']['includeStaticTypoScriptSourcesAtEnd'][] = 'EXT:adx_theme_manager/Classes/Hooks/TemplateService.php:&Tx_AdxThemeManager_Hooks_TemplateService->includeStaticTypoScriptSources';
-} else {
-	$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tstemplate.php']['includeStaticTypoScriptSourcesAtEnd'][] = 'EXT:adx_theme_manager/Classes/Hooks/TsTemplate.php:&Tx_AdxThemeManager_Hooks_TsTemplate->includeStaticTypoScriptSources';
-}
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tstemplate.php']['includeStaticTypoScriptSourcesAtEnd'][] = 'EXT:adx_theme_manager/Classes/Hooks/TemplateService.php:&AdGrafik\\AdxThemeManager\\Hooks\\TemplateService->includeStaticTypoScriptSources';
 
 ?>

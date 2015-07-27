@@ -7,21 +7,21 @@ $themesDirectory = $extensionConfiguration['themesDirectory']
 	: 'fileadmin/themes/';
 
 // Include ext_tables.php of themes.
-$themesPath = t3lib_div::getFileAbsFileName($themesDirectory);
+$themesPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($themesDirectory);
 if (!$themesPath) {
 	trigger_error('Theme path was not set in the configuration of the extension "adx_theme_manager".', E_USER_WARNING);
 } else {
 
 	if (!is_dir($themesPath)) {
 		trigger_error('Theme path "' . $themesPath . '" of the extension "adx_theme_manager" dose not exists and will be created.', E_USER_WARNING);
-		t3lib_div::mkdir($themesPath);
+		\TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($themesPath);
 	}
 
-	$themes = t3lib_div::get_dirs($themesPath);
+	$themes = \TYPO3\CMS\Core\Utility\GeneralUtility::get_dirs($themesPath);
 
 	// Create default theme if no theme exists.
 	if (!count($themes)) {
-		$cmd = 'cp -R ' . escapeshellarg(t3lib_extMgm::extPath('adx_theme_manager') . 'Resources/Private/DefaultTheme') . ' ' . escapeshellarg($themesPath . 'Common');
+		$cmd = 'cp -R ' . escapeshellarg(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('adx_theme_manager') . 'Resources/Private/DefaultTheme') . ' ' . escapeshellarg($themesPath . 'Common');
 		t3lib_utility_Command::exec($cmd);
 		$themes[] = 'Common';
 	}
@@ -33,28 +33,5 @@ if (!$themesPath) {
 		}
 	}
 }
-
-/**
- * Add-ons for sys_template
- */
-$tempColumns = array(
-	'tx_adxthememanager_static_files' => array(
-		'label' => 'LLL:EXT:adx_theme_manager/Resources/Private/Language/Locallang.xml:tx_adxthememanager_static_files',
-		'exclude' => 1,
-		'config' => array(
-			'type' => 'select',
-			'size' => 3,
-			'maxitems' => 100,
-			'items' => array(),
-			'itemsProcFunc' => 'Tx_AdxThemeManager_ItemProcessFunction_SysTemplate->getStaticFiles',
-		),
-	),
-);
-
-if (version_compare(TYPO3_branch, '6.1', '<')) {
-	t3lib_div::loadTCA('sys_template');
-}
-t3lib_extMgm::addTCAcolumns('sys_template', $tempColumns, 1);
-t3lib_extMgm::addToAllTCAtypes('sys_template', 'tx_adxthememanager_static_files', '', 'after:include_static_file');
 
 ?>

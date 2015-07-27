@@ -12,7 +12,7 @@
 
 $EM_CONF[$_EXTKEY] = array (
 	'title' => 'ad: Theme Manager',
-	'description' => 'Adds an option to the template record to load static TypoScript templates per file and more.',
+	'description' => 'Adds an option to the template record to handle theme configuration like TypoScript via file and more.',
 	'category' => 'plugin',
 	'shy' => 0,
 	'version' => '1.0.2',
@@ -29,17 +29,16 @@ $EM_CONF[$_EXTKEY] = array (
 	'lockType' => '',
 	'author' => 'Arno Dudek',
 	'author_email' => 'webmaster@adgrafik.at',
-	'author_company' => 'ad:grafik',
+	'author_company' => 'AdGrafik',
 	'CGLcompliance' => NULL,
 	'CGLcompliance_note' => NULL,
 	'constraints' => 
 	array (
 		'depends' => 
 		array (
+			'typo3' => '6.2.0-7.99.99',
+			'extbase' => '6.2.0-7.99.99',
 			'cms' => '',
-			'version' => '',
-			'php' => '5.3.3-0.0.0',
-			'typo3' => '4.5.0-6.1.99',
 		),
 		'conflicts' => 
 		array (
