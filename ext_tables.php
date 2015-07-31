@@ -22,7 +22,7 @@ if (!$themesPath) {
 	// Create default theme if no theme exists.
 	if (!count($themes)) {
 		$cmd = 'cp -R ' . escapeshellarg(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('adx_theme_manager') . 'Resources/Private/DefaultTheme') . ' ' . escapeshellarg($themesPath . 'Common');
-		t3lib_utility_Command::exec($cmd);
+		\TYPO3\CMS\Core\Utility\CommandUtility::exec($cmd);
 		$themes[] = 'Common';
 	}
 

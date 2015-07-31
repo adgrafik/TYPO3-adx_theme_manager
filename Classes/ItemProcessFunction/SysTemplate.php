@@ -7,7 +7,7 @@ class SysTemplate {
 	 * Fill TCA form selection "Skin Path" with all skins.
 	 *
 	 * @param array $params
-	 * @param t3lib_TCEforms $parentObject
+	 * @param \TYPO3\CMS\Backend\Form\DataPreprocessor $parentObject
 	 * @return void
 	 */
 	public function getStaticFiles(&$params, $parentObject) {
