@@ -1,7 +1,36 @@
 <?php
 namespace AdGrafik\AdxThemeManager\Hooks;
 
-class TemplateService extends \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService {
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) 2015 Arno Dudek <webmaster@adgrafik.at>
+ *
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use TYPO3\CMS\Core\TypoScript\ExtendedTemplateService;
+use TYPO3\CMS\Core\TypoScript\TemplateService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use AdGrafik\AdxThemeManager\Utility\ThemeUtility;
+
+class TemplateServiceHook extends ExtendedTemplateService {
 
 	/**
 	 * Includes static template records (from static_template table) and static template files (from extensions) for the input template record row.
@@ -10,16 +39,14 @@ class TemplateService extends \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService
 	 * @param \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService $parentObject Reference back to parent object, or one of its subclasses.
 	 * @return void
 	 */
-	public function includeStaticTypoScriptSources(array $params, \TYPO3\CMS\Core\TypoScript\TemplateService $parentObject) {
+	public function includeStaticTypoScriptSources(array $params, TemplateService $parentObject) {
 
 		if ($params['row']['tx_adxthememanager_static_files']) {
 
-			$extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['adx_theme_manager']);
-
-			$themeDirectories = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $params['row']['tx_adxthememanager_static_files'], TRUE);
+			$themeDirectories = GeneralUtility::trimExplode(',', $params['row']['tx_adxthememanager_static_files'], TRUE);
 			foreach ($themeDirectories as $themeDirectory) {
 
-				$themePath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName($themeDirectory);
+				$themePath = GeneralUtility::getFileAbsFileName($themeDirectory);
 				$themeName = basename($themeDirectory);
 
 				$templateId = 'ext_adxthememanager_' . strtolower($themeName);
@@ -32,7 +59,7 @@ class TemplateService extends \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService
 					'title' => 'Theme: ' . $themeName,
 					'uid' => 'EXT:adx_theme_manager:' . $themeName,
 				);
-				$themeTypoScriptName = \TYPO3\CMS\Core\Utility\GeneralUtility::underscoredToLowerCamelCase($themeName);
+				$themeTypoScriptName = GeneralUtility::underscoredToLowerCamelCase($themeName);
 				$themeTypoScriptName = str_replace(array('.', '-'), '_', $themeTypoScriptName);
 
 				// Append theme path.
@@ -43,14 +70,14 @@ class TemplateService extends \TYPO3\CMS\Core\TypoScript\ExtendedTemplateService
 				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.' . $themeTypoScriptName . ' = ' . $themeDirectory . LF;
 				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.current = ' . $themeDirectory . LF;
 
-				$themePathAndFilenames = \TYPO3\CMS\Core\Utility\GeneralUtility::getAllFilesAndFoldersInPath(array(), $themePath, 'ts,txt');
+				$themePathAndFilenames = GeneralUtility::getAllFilesAndFoldersInPath(array(), $themePath, 'ts,txt');
 				sort($themePathAndFilenames);
 
 				foreach ($themePathAndFilenames as $key => $themePathAndFilename) {
 
 					if (preg_match('{((/static/constants\.(txt|ts)|/static/setup\.(txt|ts))|(/typoscript.*\.(txt|ts)))$}i', $themePathAndFilename)) {
 
-						$source = \TYPO3\CMS\Core\Utility\GeneralUtility::getUrl($themePathAndFilename);
+						$source = GeneralUtility::getUrl($themePathAndFilename);
 						if (trim($source)) {
 
 							$head = LF . LF . '/**' . LF;
