@@ -1,3 +1,6 @@
 
-  # cat=basic/enable/10; type=input; label= Theme directory: Relative directory from installation where the themes are, with trailing slash.
+  # cat=basic/enable/10; type=input; label= Theme directory: Relative directory from installation where the themes are located.
 themesDirectory = fileadmin/themes/
+
+  # cat=basic/enable/20; type=input; label= Theme TSconfig directory: Relative directory from theme where the TSconfig files are located.
+tsConfigDirectory = Configuration/TSconfig/

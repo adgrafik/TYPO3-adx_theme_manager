@@ -129,6 +129,16 @@ class ThemeUtility {
 			: $themesDirectory;
 	}
 
+	/**
+	 * @return string
+	 */
+	public static function getTsConfigDirectory() {
+		$tsConfigDirectory = self::getExtensionConfiguration('tsConfigDirectory');
+		return ($tsConfigDirectory)
+			? trim($tsConfigDirectory, '/') . '/'
+			: 'Configuration/TSconfig/';
+	}
+
 }
 
 ?>

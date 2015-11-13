@@ -2,6 +2,7 @@
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
 $themesDirectory = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesDirectory();
+$tsConfigDirectory = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getTsConfigDirectory();
 
 if ($themesDirectory) {
 	$absoluteThemesPath = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesDirectory(TRUE);
@@ -17,12 +18,23 @@ if ($themesDirectory) {
 			$themes[] = 'common';
 		}
 		if (count($themes)) {
-			// Include ext_localconf.php and ext_tables.sql of themes.
 			foreach ($themes as $themeName) {
 				$themeName = trim($themeName, '/');
-				require_once($absoluteThemesPath . $themeName . '/ext_localconf.php');
+				// Include TSconfig files.
+				$userConfigPathAndFilename = $themeName . '/' . $tsConfigDirectory . 'User.ts';
+				if (@is_file($absoluteThemesPath . $userConfigPathAndFilename)) {
+					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:' . $themesDirectory . $userConfigPathAndFilename . '">');
+				}
+				$pageConfigPathAndFilename = $themeName . '/' . $tsConfigDirectory . 'Page.ts';
+				if (@is_file($absoluteThemesPath . $pageConfigPathAndFilename)) {
+					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:' . $themesDirectory . $pageConfigPathAndFilename . '">');
+				}
+				// Include ext_localconf.php.
+				if (@is_file($absoluteThemesPath . $themeName . '/ext_localconf.php')) {
+					require_once($absoluteThemesPath . $themeName . '/ext_localconf.php');
+				}
 				// Include ext_tables.sql.
-				if (is_file($absoluteThemesPath . $themeName . '/ext_tables.sql')) {
+				if (@is_file($absoluteThemesPath . $themeName . '/ext_tables.sql')) {
 					$GLOBALS['TYPO3_LOADED_EXT'][$_EXTKEY . $themeName]['ext_tables.sql'] = $absoluteThemesPath . $themeName . '/ext_tables.sql';
 				}
 			}
