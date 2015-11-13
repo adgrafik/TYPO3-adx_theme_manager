@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2015-09-21T18:41:55Z">
+		<body>
+            <trans-unit id="sys_template.tx_adxthememanager_static_files" approved="yes">
+                <source>Include static templates (from adx_theme_manager)</source>
+                <target>Statische Templates einschließen (aus adx_theme_manager)</target>
+            </trans-unit>
+		</body>
+	</file>
+</xliff>
