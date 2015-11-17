@@ -38,14 +38,12 @@ class SysTemplate {
 	 * @return void
 	 */
 	public function getStaticFiles(&$params, $parentObject) {
-
-		$themesDirectory = ThemeUtility::getThemesDirectory();
-
-		$themes = (array) GeneralUtility::get_dirs(GeneralUtility::getFileAbsFileName($themesDirectory));
-		foreach ($themes as $theme) {
-			$localconfPathAndFilename = GeneralUtility::getFileAbsFileName($themesDirectory . $theme . '/ext_localconf.php');
-			if (is_file($localconfPathAndFilename)) {
-				$params['items'][] = array($theme, $themesDirectory . $theme . '/');
+		$absoluteThemesPath = ThemeUtility::getThemesPath(TRUE);
+		$themeNames = (array) GeneralUtility::get_dirs($absoluteThemesPath);
+		foreach ($themeNames as $themeName) {
+			$themeName = trim($themeName, '/');
+			if (is_dir($absoluteThemesPath . $themeName)) {
+				$params['items'][] = array($themeName, $themeName);
 			}
 		}
 	}

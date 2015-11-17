@@ -42,11 +42,11 @@ class ThemeUtility {
 	 * @return boolean
 	 */
 	public static function isTheme($theme) {
-		$themesDirectory = self::getThemesDirectory();
+		$themesDirectory = self::getThemesPath();
 		// Relative path of theme is the theme name to search for.
 		$theme = trim($themesDirectory . $theme, '/') . '/';
 		// Search current page for theme.
-		$result = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('tx_adxthememanager_static_files', 'sys_template', 'pid=' . self::getPageId() . ' AND NOT deleted AND NOT hidden');
+		$result = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('tx_adxthememanager_static_files', 'sys_template', 'pid=' . self::getPageId() . ' AND NOT deleted');
 		// If templates found look for included themes.
 		foreach ($result as $themeRow) {
 			if (GeneralUtility::inList($themeRow['tx_adxthememanager_static_files'], $theme)) {
@@ -63,12 +63,12 @@ class ThemeUtility {
 	 * @return boolean
 	 */
 	public static function isThemeInRootline($theme) {
-		$themesDirectory = self::getThemesDirectory();
+		$themesDirectory = self::getThemesPath();
 		// Relative path of theme is the theme name to search for.
 		$theme = trim($themesDirectory . $theme, '/') . '/';
 		// Search the rootline up for theme.
 		foreach (self::getRootline() as $row) {
-			$result = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('tx_adxthememanager_static_files', 'sys_template', 'pid=' . $row['uid'] . ' AND NOT deleted AND NOT hidden');
+			$result = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('tx_adxthememanager_static_files', 'sys_template', 'pid=' . $row['uid'] . ' AND NOT deleted');
 			// If templates found look for included themes.
 			foreach ($result as $themeRow) {
 				if (GeneralUtility::inList($themeRow['tx_adxthememanager_static_files'], $theme)) {
@@ -119,7 +119,7 @@ class ThemeUtility {
 	 * @param boolean $absolute
 	 * @return string
 	 */
-	public static function getThemesDirectory($absolute = FALSE) {
+	public static function getThemesPath($absolute = FALSE) {
 		$themesDirectory = self::getExtensionConfiguration('themesDirectory');
 		$themesDirectory = ($themesDirectory)
 			? trim($themesDirectory, '/') . '/'

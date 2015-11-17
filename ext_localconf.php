@@ -1,11 +1,11 @@
 <?php
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
-$themesDirectory = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesDirectory();
+$themesDirectory = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesPath();
 $tsConfigDirectory = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getTsConfigDirectory();
 
 if ($themesDirectory) {
-	$absoluteThemesPath = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesDirectory(TRUE);
+	$absoluteThemesPath = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesPath(TRUE);
 	if (is_dir($absoluteThemesPath) === FALSE) {
 		\TYPO3\CMS\Core\Utility\GeneralUtility::mkdir($absoluteThemesPath);
 	}

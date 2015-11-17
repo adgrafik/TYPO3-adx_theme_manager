@@ -42,12 +42,18 @@ class TemplateServiceHook extends ExtendedTemplateService {
 	public function includeStaticTypoScriptSources(array $params, TemplateService $parentObject) {
 
 		if ($params['row']['tx_adxthememanager_static_files']) {
+			$themeNames = GeneralUtility::trimExplode(',', $params['row']['tx_adxthememanager_static_files'], TRUE);
+		}
 
-			$themeDirectories = GeneralUtility::trimExplode(',', $params['row']['tx_adxthememanager_static_files'], TRUE);
-			foreach ($themeDirectories as $themeDirectory) {
+		if (count($themeNames)) {
 
-				$themePath = GeneralUtility::getFileAbsFileName($themeDirectory);
-				$themeName = basename($themeDirectory);
+			$themesPath = ThemeUtility::getThemesPath();
+			$absoluteThemesPath = ThemeUtility::getThemesPath(TRUE);
+
+			foreach ($themeNames as $themeName) {
+
+				$absoluteThemePath = $absoluteThemesPath . $themeName . '/';
+				$themePath = $themesPath . $themeName . '/';
 
 				$templateId = 'ext_adxthememanager_' . strtolower($themeName);
 				$templateRecord = array(
@@ -65,12 +71,12 @@ class TemplateServiceHook extends ExtendedTemplateService {
 				// Append theme path.
 				$templateRecord['constants'] .= LF . '/**' . LF;
 				$templateRecord['constants'] .= ' * included by adx_theme_manager' . LF;
-				$templateRecord['constants'] .= ' * Theme path: ' . $themeDirectory . LF;
+				$templateRecord['constants'] .= ' * Theme path: ' . $themePath . LF;
 				$templateRecord['constants'] .= ' */' . LF;
-				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.' . $themeTypoScriptName . ' = ' . $themeDirectory . LF;
-				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.current = ' . $themeDirectory . LF;
+				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.' . $themeTypoScriptName . ' = ' . $themePath . LF;
+				$templateRecord['constants'] .= 'plugin.tx_adxthememanager.path.current = ' . $themePath . LF;
 
-				$themePathAndFilenames = GeneralUtility::getAllFilesAndFoldersInPath(array(), $themePath, 'ts,txt');
+				$themePathAndFilenames = GeneralUtility::getAllFilesAndFoldersInPath(array(), $absoluteThemePath, 'ts,txt');
 				sort($themePathAndFilenames);
 
 				foreach ($themePathAndFilenames as $key => $themePathAndFilename) {

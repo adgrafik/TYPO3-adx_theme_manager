@@ -1,10 +1,10 @@
 <?php
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
-$themesDirectory = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesDirectory();
+$themesDirectory = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesPath();
 
 if ($themesDirectory) {
-	$absoluteThemesPath = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesDirectory(TRUE);
+	$absoluteThemesPath = \AdGrafik\AdxThemeManager\Utility\ThemeUtility::getThemesPath(TRUE);
 	if ($absoluteThemesPath) {
 		$themes = \TYPO3\CMS\Core\Utility\GeneralUtility::get_dirs($absoluteThemesPath);
 		// Include ext_tables.php of themes.
